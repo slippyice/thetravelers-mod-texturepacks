@@ -9,6 +9,11 @@ Copy and paste the code from texturepacks.js into the browser console after logg
 
 Hope you enjoy a world of color :D
 
+# Found a new location?
+`console.log(WORLD.otherObjs);`
+Paste this into the console and it will output an array with info about that particular location.
+If you'd like it to be added pls message me in discord (find me in thetravelers discord) the object `{x: 10, y: -10, char: "o", is_door: false, is_breakable: false}` and a simple name that represents it such as "hole".
+
 # To-Do:
 * Differentiation of the player traveler from other travelers
 * Font handling

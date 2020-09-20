@@ -1,4 +1,7 @@
 # Changelog
+## 0.4.1
+* updated some colors for slippy_dark
+* added a couple special locations to the default
 ## 0.4.0
 * added font support
 ## 0.3.0

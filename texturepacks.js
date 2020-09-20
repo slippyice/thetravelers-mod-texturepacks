@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.4.0
+version: 0.4.1
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -82,6 +82,14 @@ var TEXTUREPACK = {
       small_chest: "◻",
       large_chest: "▭",
       anchor: "┬",
+
+      // special locations
+      body: "@",
+      drop: "n",
+      hole: "o",
+      sepulchre: "<b>S</b>",
+      bunker: "_",//are these correct?
+      base: "B"//are these correct?
     }
   },
   slippy_light: {
@@ -114,38 +122,50 @@ var TEXTUREPACK = {
       steel_door: "$",
       small_chest: "◻",
       large_chest: "▭",
-      anchor: "┬"
+      anchor: "┬",
+
+      // special locations
+      body: "@",
+      drop: "n",
+      hole: "o",
+      sepulchre: "<b>S</b>"
     },
     COLORS: {
       //traveler: 'white',
-      //sand: 'white',
+      sand: '#dbd195',
       grass: '#2f8735',
       tree: '#3dbf06',
       water: '#446e73',
-      swamp: '#97c971',
+      swamp: '#63731f',//'#97c971',
       mountain: '#919191',
       forest: '#408211',
       house: '#f79f4d',
       city: '#f77a4d',
-      //startbox: 'white',
-      monument: '#b24ced',
+      startbox: '#ed809d',
+      monument: '#8552a3',//'#301440',//'#b24ced',
       island: '#dbd195',
-      //worldedge: 'white',
+      worldedge: '#d1c3d9',
 
       // building materials
-      sign_block: 'yellow',
-      wood_block: 'yellow',
-      wood_door: 'yellow',
-      scrap_block: 'yellow',
-      scrap_door: 'yellow',
-      steel_block: 'yellow',
-      steel_door: 'yellow',
-      small_chest: 'yellow',
-      large_chest: 'yellow',
-      anchor: 'yellow'
+      sign_block: '#ffbf00',
+      wood_block: '#cc9745',//'#915f13',
+      wood_door: '#c9782c',
+      scrap_block: '#59706f',
+      scrap_door: '#a3c7bd',
+      steel_block: '#677f8a',
+      steel_door: '#9badcc',
+      small_chest: '#a84f6d',
+      large_chest: '#d15858',
+      anchor: '#92809e',
+
+      // special locations
+      body: '#ed809d',
+      drop: '#ed809d',
+      hole: '#ed809d',
+      sepulchre: '#8552a3'
     },
     FONTS: "Comic Sans MS"
-    //font support when? NOW!
+    //font support when?
   }
 }
 
