@@ -1,13 +1,11 @@
 
-
 //////////////////////////////////
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.2.0
+version: 0.3.0
 THIS IS AN EARLY TEST VERSION,
-MISSING MOST FEATURES,
-DO NOT USE
+MISSING MOST FEATURES
 */
 ///////////////////////////////////
 var textCompat = function (char) {
@@ -141,109 +139,32 @@ var TEXTUREPACK = {
   }
 }
 
-////////////////NOT MY CODE BELOW HERE/ AKA GAME CODE, THIS IS REALLY BAD PRACTICE//////////REMINDER TO SELF, WRITE PROPER INJECTOR
-WORLD.checkPlayersAndObjs = function () {
-        for (let i = 0; i < this.otherStumps.length; i++) {
-            let x = this.otherStumps[i].x,
-                y = this.otherStumps[i].y;
-
-            if (YOU.x === x && YOU.y === y) {
-                YOU.currentTile = WORLD.TILES.grass;
-            } else {
-                WORLD.changeTile(x, y, WORLD.TILES.grass);
-            }
-        }
-
-        for (let i = 0; i < this.otherPlayers.length; i++) {
-            let x = this.otherPlayers[i].x,
-                y = this.otherPlayers[i].y;
-
-            // in case you forget, this will not need to include future building types, only ones that are generated in the clientside worldgen
-            WORLD.changeTile(x, y, WORLD.TILES.traveler, true);
-        }
-
-        let atop = false;
-        //HANDS.doorBtn.style.display = "none";
-        HANDS.breakBtnEl.style.display = "none";
-        for (let i = 0; i < this.otherObjs.length; i++) {
-            let x = this.otherObjs[i].x,
-                y = this.otherObjs[i].y,
-                char = this.otherObjs[i].char,
-                canWalkOver = this.otherObjs[i].walk_over;
-
-            if (char === "H") { // texturepack compatibility
-                char = WORLD.TILES.house;
-            }
-            if (char === "C") {
-                char = WORLD.TILES.city;
-            }
-            char = textCompat(char);
-
-            // if it's a door and next to you, show "open door" button // DEPRECATED, OPEN DOOR BUTTON IS REMOVED, NOW YOU WALK INTO DOORS TO OPEN THEM
-            //if (Math.abs(x - YOU.x) <= 1 && Math.abs(y - YOU.y) <= 1 && this.otherObjs[i].is_door) {
-            //    HANDS.doorBtn.style.display = "";
-            //    HANDS.breakBtnEl.style.display = "";
-            //}
-
-            // if it's breakable and next to you, show "dismantle" button
-            if (Math.abs(x - YOU.x) <= 1 && Math.abs(y - YOU.y) <= 1 && (this.otherObjs[i].is_breakable || this.otherObjs[i].is_door)) {
-                HANDS.breakBtnEl.style.display = "";
-            }
-
-            if (canWalkOver) {
-                if ((YOU.x !== x || YOU.y !== y)) {
-                    if (document.getElementById(x + "|" + y).innerHTML !== WORLD.TILES.traveler) {
-                        WORLD.changeTile(x, y, char);
-                    }
-                }
-            } else {
-                WORLD.changeTile(x, y, char);
-
-                if (YOU.x === x && YOU.y === y) {
-                    atop = true;
-                }
-            }
-        }
-        
-        ENGINE.atop_another = atop;
-    }
-
-WORLD.build = function () {
-        let count = 0;
-        for (let i = -1 * this.gridRadius; i <= this.gridRadius; i++) {
-            for (let j = -1 * this.gridRadius; j <= this.gridRadius; j++) {
-                let newX = YOU.x + j,
-                    newY = YOU.y - i,
-                    tile = this.deriveTile(newX, newY);
-
-                WORLD.tilemap[count].id = newX + "|" + newY;
-                WORLD.tilemap[count].innerHTML = tile;
-                WORLD.tilemap[count].style.fontWeight = "";
-                WORLD.tilemap[count].style.color = colorPicker(tile);
-
-                if (newX === YOU.x && newY === YOU.y) {
-                    YOU.currentTile = tile;
-                    WORLD.tilemap[count].innerHTML = YOU.char;
-                }
-
-                count++;
-            }
-        }
-
-        this.coordsElem.innerHTML = YOU.getCoordString();
-        this.biomeElem.innerHTML = YOU.biome;
-
-        YOU.checkMoveLog();
-    }
-
-WORLD.changeTile = function (x, y, c, checkStructs) {
-        if (checkStructs === undefined) checkStructs = false; 
-
-        let item = WORLD.deriveTile(x, y);
-        if (checkStructs && (item === WORLD.TILES.house || item === WORLD.TILES.city || item === WORLD.TILES.monument)) {
-            return;
-        }
-
-        if (document.getElementById(x + "|" + y) !== null) document.getElementById(x + "|" + y).innerHTML = c;
-          document.getElementById(x + "|" + y).style.color = colorPicker(c);
-    }
+//dont init multiple times, why? idk.
+var init = function() {
+  //world build
+  var build_rem = 'WORLD.tilemap[count].style.fontWeight = "";';
+  var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);';
+  var build_str = WORLD.build.toString();
+  build_str = build_str.replace(build_rem, build_add);
+  WORLD.build = eval('('+build_str+')');//thank you LightningWB
+  //texture compat
+  var compat_rem = 'if (char === "H") {char = WORLD.TILES.house; } if (char === "C") { char = WORLD.TILES.city; }';
+  var compat_add = 'char=textCompat(char);';
+  var compat_str = WORLD.checkPlayersAndObjs.toString();
+  compat_str = compat_str.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'');//remove comments
+  //wtf is that regex?! https://stackoverflow.com/questions/37051797/remove-comments-from-string-with-javascript-using-javascript
+  compat_str = compat_str.replace(/\n/g, '');//remove line breaks
+  compat_str = compat_str.replace(/\s\s/g,'');//remove unnessesary whitespace
+  compat_str = compat_str.replace(compat_rem, compat_add);
+  WORLD.checkPlayersAndObjs = eval('('+compat_str+')');//thank you LightningWB
+  //change tile
+  WORLD.changeTile = (function() {
+    var cached_function = WORLD.changeTile
+    return function() {
+      var result = cached_function.apply(this, arguments);
+      document.getElementById(arguments[0] + "|" + arguments[1]).style.color = colorPicker(arguments[2]);
+      return result;
+    };
+  })();
+}
+init();
