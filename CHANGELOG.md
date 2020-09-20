@@ -1,4 +1,6 @@
 # Changelog
+## 0.4.0
+* added font support
 ## 0.3.0
 * remove game code redefining
 * added proper injection code, ty LightningWB

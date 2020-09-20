@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.3.0
+version: 0.4.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -42,6 +42,15 @@ var colorPicker = function (char) {
     }
   }
   return defaultColor();
+}
+
+var defaultFont = "'Courier New', Courier, monospace";
+var fontPicker = function () {
+  if (TEXTUREPACK[selectedPack].FONTS) {
+    return TEXTUREPACK[selectedPack].FONTS
+  } else {
+    return defaultFont;
+  }
 }
 
 var TEXTUREPACK = {
@@ -134,8 +143,9 @@ var TEXTUREPACK = {
       small_chest: 'yellow',
       large_chest: 'yellow',
       anchor: 'yellow'
-    }
-    //font support when?
+    },
+    FONTS: "Comic Sans MS"
+    //font support when? NOW!
   }
 }
 
@@ -143,7 +153,7 @@ var TEXTUREPACK = {
 var init = function() {
   //world build
   var build_rem = 'WORLD.tilemap[count].style.fontWeight = "";';
-  var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);';
+  var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);WORLD.tilemap[count].style.fontFamily = fontPicker(tile);';
   var build_str = WORLD.build.toString();
   build_str = build_str.replace(build_rem, build_add);
   WORLD.build = eval('('+build_str+')');//thank you LightningWB
@@ -163,6 +173,7 @@ var init = function() {
     return function() {
       var result = cached_function.apply(this, arguments);
       document.getElementById(arguments[0] + "|" + arguments[1]).style.color = colorPicker(arguments[2]);
+      document.getElementById(arguments[0] + "|" + arguments[1]).style.fontFamily = fontPicker(arguments[2]);
       return result;
     };
   })();

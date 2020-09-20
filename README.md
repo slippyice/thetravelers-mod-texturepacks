@@ -1,7 +1,8 @@
 # thetravelers-mod-texturepacks
 A texturepack mod for https://thetravelers.online/
 
-> WARNING: This is a very early development version, will break if the game updates and is missing most features.
+> NOTE: This texturepack mod currently only effects the world-box/map.  
+> WARNING: This is a very early development version, may break and is missing most features.
 
 # Installation
 Copy and paste the code from texturepacks.js into the browser console after logging in.
