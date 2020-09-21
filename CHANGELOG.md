@@ -1,4 +1,9 @@
 # Changelog
+## 0.5.0
+* fixed a bug with `colorPicker()` breaking if a pack didn't have a COLORS property
+* ability to switch texturepacks
+* switching the char set used when switching texturepack
+* created a texturepack testing thing in packtester.js
 ## 0.4.1
 * updated some colors for slippy_dark
 * added a couple special locations to the default

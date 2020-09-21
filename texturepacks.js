@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.4.1
+version: 0.5.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -34,13 +34,16 @@ var defaultColor = function() {
 //usage: color = colorPicker(char);
 //returns css style "color:aColor;"
 var colorPicker = function (char) {
+  if (!TEXTUREPACK[selectedPack].COLORS) {return defaultColor();}
   for (var tile in TEXTUREPACK[selectedPack].TILES) {
     if (char === TEXTUREPACK[selectedPack].TILES[tile]) {
       if (TEXTUREPACK[selectedPack].COLORS[tile]) {
+        //console.log("i picked a pack color");
         return TEXTUREPACK[selectedPack].COLORS[tile];
       }
     }
   }
+  //console.log("i didn't find a pack color");
   return defaultColor();
 }
 
@@ -51,6 +54,13 @@ var fontPicker = function () {
   } else {
     return defaultFont;
   }
+}
+
+var packSwitcher = function (pack) {
+  if (!TEXTUREPACK.hasOwnProperty(pack)) {return false;}
+  selectedPack = pack;
+  WORLD.TILES = {...TEXTUREPACK.default.TILES, ...TEXTUREPACK[pack].TILES};//should i always reset to default or should i let the previous pack bleed over?
+  return true;
 }
 
 var TEXTUREPACK = {
@@ -164,9 +174,34 @@ var TEXTUREPACK = {
       hole: '#ed809d',
       sepulchre: '#8552a3'
     },
+    //FONTS: "Comic Sans MS"
+    //font support when? NOW!
+  },
+  switch_test: {
+    TILES: {
+      traveler: '%',
+      sand: 'S',
+      grass: 'g',
+      tree: 't',
+      water: 'W',
+      swamp: '~',
+      mountain: 'm',
+      forest: 'T',
+      house: '>',
+      city: '<',
+      startbox: 'u',
+      monument: "\u258B",
+      island: '.',
+      worldedge: '\u2591',
+    },
     FONTS: "Comic Sans MS"
-    //font support when?
   }
+}
+TEXTUREPACK.slippy_dark_font = {
+  //this is an example where you can make minor modifications to an existing pack
+  ...TEXTUREPACK.slippy_dark,
+  //after adding an existing pack you can start overwriting things
+  FONTS: "Comic Sans MS"
 }
 
 //dont init multiple times, why? idk.
@@ -197,5 +232,6 @@ var init = function() {
       return result;
     };
   })();
+  packSwitcher("default");
 }
 init();

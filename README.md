@@ -7,7 +7,13 @@ A texturepack mod for https://thetravelers.online/
 # Installation
 Copy and paste the code from texturepacks.js into the browser console after logging in.
 
+To change texture packs, enter this into console `packSwitcher(packname);`, example `packSwitcher("default");`.
+
 Hope you enjoy a world of color :D
+
+# Testing Texturepacks
+
+Copy and paste the code from packtester.js into the browser console after you have selected your texturepack.
 
 # Found a new location?
 `console.log(WORLD.otherObjs);`
