@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.5.0
+version: 0.5.1
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -22,7 +22,7 @@ var textCompat = function (char) {
 var selectedPack = "slippy_dark";
 
 var defaultColor = function() {
-  if (SETTINGS.darkmode) {
+  if (SETTINGS.darkmode === "true") {
     //console.log('white');
     return 'white';
   } else {

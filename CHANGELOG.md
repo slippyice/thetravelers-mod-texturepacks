@@ -1,4 +1,6 @@
 # Changelog
+## 0.5.1
+* fixed `defaultColor()` not working becaue SETTINGS.darkmode is equal to a string rathar than a boolean
 ## 0.5.0
 * fixed a bug with `colorPicker()` breaking if a pack didn't have a COLORS property
 * ability to switch texturepacks
