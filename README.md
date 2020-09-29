@@ -14,6 +14,8 @@ Hope you enjoy a world of color :D
 # Testing Texturepacks
 
 Copy and paste the code from packtester.js into the browser console after you have selected your texturepack.
+It creates a button in the hotbar area, click on it to run for 120 (by default) cycles/seconds.
+Click on it while it's running to turn it off
 
 # Found a new location?
 `console.log(WORLD.otherObjs);`
