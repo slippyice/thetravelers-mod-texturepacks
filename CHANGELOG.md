@@ -1,4 +1,6 @@
 # Changelog
+## 0.5.3
+* special locations and some colors
 ## 0.5.2
 * made it so packtester.js after running will create a button on screen in the hotbar area to control it
 ## 0.5.1

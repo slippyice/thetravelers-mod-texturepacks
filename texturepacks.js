@@ -98,8 +98,13 @@ var TEXTUREPACK = {
       drop: "n",
       hole: "o",
       sepulchre: "<b>S</b>",
-      bunker: "_",//are these correct?
-      base: "B"//are these correct?
+      bunker: "_",
+      base: "B",
+      pyramid: "<b>\u25B3</b>",
+      water_cube: "\u2B13",
+      fort_wall: "\u25EB",
+      fort_door: "\u25A5",
+      fortress: "\u2B1F"
     }
   },
   slippy_light: {
@@ -138,7 +143,14 @@ var TEXTUREPACK = {
       body: "@",
       drop: "n",
       hole: "o",
-      sepulchre: "<b>S</b>"
+      sepulchre: "<b>S</b>",
+      bunker: "_",
+      base: "B",
+      pyramid: "<b>\u25B3</b>",
+      water_cube: "\u2B13",
+      fort_wall: "\u25EB",
+      fort_door: "\u25A5",
+      fortress: "\u2B1F"
     },
     COLORS: {
       //traveler: 'white',
@@ -172,7 +184,14 @@ var TEXTUREPACK = {
       body: '#ed809d',
       drop: '#ed809d',
       hole: '#ed809d',
-      sepulchre: '#8552a3'
+      sepulchre: '#8552a3',
+      bunker: '#f20f0f',
+      base: '#fa431e',
+      pyramid: '#8552a3',
+      water_cube: '#8552a3',
+      fort_wall: '#8552a3',
+      fort_door: '#8552a3',
+      fortress: '#8552a3'
     },
     //FONTS: "Comic Sans MS"
     //font support when? NOW!
