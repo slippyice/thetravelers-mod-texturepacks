@@ -1,4 +1,9 @@
 # Changelog
+## 0.6.0
+* added WORLD to the texturepack structure
+* FONTS now have individual settings for tiles
+* can now change world-box styles
+* leaving individual settings undefined will make them be set to the world-box's sytles
 ## 0.5.3
 * special locations and some colors
 ## 0.5.2

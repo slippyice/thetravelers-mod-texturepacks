@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.5.1
+version: 0.6.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -34,7 +34,7 @@ var defaultColor = function() {
 //usage: color = colorPicker(char);
 //returns css style "color:aColor;"
 var colorPicker = function (char) {
-  if (!TEXTUREPACK[selectedPack].COLORS) {return defaultColor();}
+  if (!TEXTUREPACK[selectedPack].COLORS) {return "";}//defaultColor()
   for (var tile in TEXTUREPACK[selectedPack].TILES) {
     if (char === TEXTUREPACK[selectedPack].TILES[tile]) {
       if (TEXTUREPACK[selectedPack].COLORS[tile]) {
@@ -44,15 +44,44 @@ var colorPicker = function (char) {
     }
   }
   //console.log("i didn't find a pack color");
-  return defaultColor();
+  return "";//defaultColor()
 }
 
 var defaultFont = "'Courier New', Courier, monospace";
-var fontPicker = function () {
-  if (TEXTUREPACK[selectedPack].FONTS) {
-    return TEXTUREPACK[selectedPack].FONTS
+var fontPicker = function (char) {
+  if (!TEXTUREPACK[selectedPack].FONTS) {return "";}//defaultFont
+  for (var tile in TEXTUREPACK[selectedPack].TILES) {
+    if (char === TEXTUREPACK[selectedPack].TILES[tile]) {
+      if (TEXTUREPACK[selectedPack].FONTS[tile]) {
+        return TEXTUREPACK[selectedPack].FONTS[tile];
+      }
+    }
+  }
+  return "";//defaultFont
+}
+
+var worldColor = function () {
+  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
+  if (TEXTUREPACK[selectedPack].WORLD.color) {
+    return TEXTUREPACK[selectedPack].WORLD.color;
   } else {
-    return defaultFont;
+    return "";
+  }
+}
+var worldBackgroundColor = function () {
+  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
+  if (TEXTUREPACK[selectedPack].WORLD.background) {
+    return TEXTUREPACK[selectedPack].WORLD.background;
+  } else {
+    return "";
+  }
+}
+var worldFont = function () {
+  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
+  if (TEXTUREPACK[selectedPack].WORLD.font) {
+    return TEXTUREPACK[selectedPack].WORLD.font;
+  } else {
+    return "";
   }
 }
 
@@ -60,6 +89,9 @@ var packSwitcher = function (pack) {
   if (!TEXTUREPACK.hasOwnProperty(pack)) {return false;}
   selectedPack = pack;
   WORLD.TILES = {...TEXTUREPACK.default.TILES, ...TEXTUREPACK[pack].TILES};//should i always reset to default or should i let the previous pack bleed over?
+  document.getElementById("world-box").style.color = worldColor();
+  document.getElementById("world-box").style.backgroundColor = worldBackgroundColor();
+  document.getElementById("world-box").style.fontFamily = worldFont();
   return true;
 }
 
@@ -105,6 +137,24 @@ var TEXTUREPACK = {
       fort_wall: "\u25EB",
       fort_door: "\u25A5",
       fortress: "\u2B1F"
+    }
+  },
+  structure: {
+    TILES: {
+      tree: 't'
+    },
+    //any individual settings beyond this point not defined will default to ""
+    //leaving out an entire section will //////////////////////////HAVENT DECIDED YET//////////////////////////////////////////
+    COLORS: {
+      tree: 'white'
+    },
+    FONTS: {
+      tree: "'Courier New', Courier, monospace"
+    },
+    WORLD: {
+      color: 'white',
+      background: 'black',
+      font: "'Courier New', Courier, monospace"
     }
   },
   slippy_light: {
@@ -213,7 +263,14 @@ var TEXTUREPACK = {
       island: '.',
       worldedge: '\u2591',
     },
-    FONTS: "Comic Sans MS"
+    FONTS: {
+      tree: "Comic Sans MS"
+    },
+    WORLD: {
+      color: 'blue',
+      background: 'grey',
+      font: "Helvetica"
+    }
   }
 }
 TEXTUREPACK.slippy_dark_font = {
