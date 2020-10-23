@@ -1,4 +1,9 @@
 # Changelog
+## 0.7.0
+* now calls `WORLD.build()` when switching texturepack
+* now layers texturepacks like minecraft, `packSwitcher(table of pack names)` index 0 being on the bottom
+* functions now reference COMPILEDPACK rather than TEXTUREPACK[selectedPack]
+* changed a colors
 ## 0.6.0
 * added WORLD to the texturepack structure
 * FONTS now have individual settings for tiles

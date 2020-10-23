@@ -34,12 +34,12 @@ var defaultColor = function() {
 //usage: color = colorPicker(char);
 //returns css style "color:aColor;"
 var colorPicker = function (char) {
-  if (!TEXTUREPACK[selectedPack].COLORS) {return "";}//defaultColor()
-  for (var tile in TEXTUREPACK[selectedPack].TILES) {
-    if (char === TEXTUREPACK[selectedPack].TILES[tile]) {
-      if (TEXTUREPACK[selectedPack].COLORS[tile]) {
+  if (!COMPILEDPACK.COLORS) {return "";}//defaultColor()
+  for (var tile in COMPILEDPACK.TILES) {
+    if (char === COMPILEDPACK.TILES[tile]) {
+      if (COMPILEDPACK.COLORS[tile]) {
         //console.log("i picked a pack color");
-        return TEXTUREPACK[selectedPack].COLORS[tile];
+        return COMPILEDPACK.COLORS[tile];
       }
     }
   }
@@ -49,11 +49,11 @@ var colorPicker = function (char) {
 
 var defaultFont = "'Courier New', Courier, monospace";
 var fontPicker = function (char) {
-  if (!TEXTUREPACK[selectedPack].FONTS) {return "";}//defaultFont
-  for (var tile in TEXTUREPACK[selectedPack].TILES) {
-    if (char === TEXTUREPACK[selectedPack].TILES[tile]) {
-      if (TEXTUREPACK[selectedPack].FONTS[tile]) {
-        return TEXTUREPACK[selectedPack].FONTS[tile];
+  if (!COMPILEDPACK.FONTS) {return "";}//defaultFont
+  for (var tile in COMPILEDPACK.TILES) {
+    if (char === COMPILEDPACK.TILES[tile]) {
+      if (COMPILEDPACK.FONTS[tile]) {
+        return COMPILEDPACK.FONTS[tile];
       }
     }
   }
@@ -61,37 +61,49 @@ var fontPicker = function (char) {
 }
 
 var worldColor = function () {
-  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
-  if (TEXTUREPACK[selectedPack].WORLD.color) {
-    return TEXTUREPACK[selectedPack].WORLD.color;
+  if (!COMPILEDPACK.WORLD) {return "";}
+  if (COMPILEDPACK.WORLD.color) {
+    return COMPILEDPACK.WORLD.color;
   } else {
     return "";
   }
 }
 var worldBackgroundColor = function () {
-  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
-  if (TEXTUREPACK[selectedPack].WORLD.background) {
-    return TEXTUREPACK[selectedPack].WORLD.background;
+  if (!COMPILEDPACK.WORLD) {return "";}
+  if (COMPILEDPACK.WORLD.background) {
+    return COMPILEDPACK.WORLD.background;
   } else {
     return "";
   }
 }
 var worldFont = function () {
-  if (!TEXTUREPACK[selectedPack].WORLD) {return "";}
-  if (TEXTUREPACK[selectedPack].WORLD.font) {
-    return TEXTUREPACK[selectedPack].WORLD.font;
+  if (!COMPILEDPACK.WORLD) {return "";}
+  if (COMPILEDPACK.WORLD.font) {
+    return COMPILEDPACK.WORLD.font;
   } else {
     return "";
   }
 }
 
-var packSwitcher = function (pack) {
-  if (!TEXTUREPACK.hasOwnProperty(pack)) {return false;}
-  selectedPack = pack;
-  WORLD.TILES = {...TEXTUREPACK.default.TILES, ...TEXTUREPACK[pack].TILES};//should i always reset to default or should i let the previous pack bleed over?
+var selectedPacks = [];//for the list of packs that are currently selected, to be compiled
+var COMPILEDPACK = {};//for the compilation of the texturepacks
+
+var packSwitcher = function (packs) {//layers like minecraft texturepacks, index 0 being base with everything else ontop of it
+  for (var i=0; i < packs.length; i++) {//yes this check needs to be run first
+    console.log(packs[i]);
+    if (!TEXTUREPACK.hasOwnProperty(packs[i])) {return false;}
+  }
+  var compiling = {...TEXTUREPACK[ packs[0] ]}
+  for (var i=1; i < packs.length; i++) {
+    compiling = {...compiling, ...TEXTUREPACK[ packs[i] ]}
+  }
+  selectedPacks = packs;//selectedPack = pack;
+  COMPILEDPACK = compiling;
+  WORLD.TILES = {...TEXTUREPACK.default.TILES, ...COMPILEDPACK.TILES};//should i always reset to default or should i let the previous pack bleed over? reset to default.
   document.getElementById("world-box").style.color = worldColor();
   document.getElementById("world-box").style.backgroundColor = worldBackgroundColor();
   document.getElementById("world-box").style.fontFamily = worldFont();
+  WORLD.build();
   return true;
 }
 
@@ -219,7 +231,7 @@ var TEXTUREPACK = {
       worldedge: '#d1c3d9',
 
       // building materials
-      sign_block: '#ffbf00',
+      sign_block: '#ffe203',//'#ffbf00',
       wood_block: '#cc9745',//'#915f13',
       wood_door: '#c9782c',
       scrap_block: '#59706f',
@@ -271,13 +283,27 @@ var TEXTUREPACK = {
       background: 'grey',
       font: "Helvetica"
     }
+  },
+  comic_sans: {
+    WORLD: {
+      font: "Comic Sans MS"
+    }
+  },
+  clear_test: {
+    WORLD: {
+      color: '',
+      background: '',
+      font: ''
+    }
   }
 }
 TEXTUREPACK.slippy_dark_font = {
   //this is an example where you can make minor modifications to an existing pack
   ...TEXTUREPACK.slippy_dark,
   //after adding an existing pack you can start overwriting things
-  FONTS: "Comic Sans MS"
+  WORLD: {
+      font: "Comic Sans MS" //huh, apparently setting fonts from the world box rather than individually preservers the spacing
+  }
 }
 
 //dont init multiple times, why? idk.
@@ -308,6 +334,6 @@ var init = function() {
       return result;
     };
   })();
-  packSwitcher("default");
+  packSwitcher(["default"]);
 }
 init();
