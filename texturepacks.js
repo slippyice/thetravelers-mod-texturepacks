@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.6.0
+version: 0.8.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -90,7 +90,7 @@ var COMPILEDPACK = {};//for the compilation of the texturepacks
 
 var packSwitcher = function (packs) {//layers like minecraft texturepacks, index 0 being base with everything else ontop of it
   for (var i=0; i < packs.length; i++) {//yes this check needs to be run first
-    console.log(packs[i]);
+    //console.log(packs[i]);
     if (!TEXTUREPACK.hasOwnProperty(packs[i])) {return false;}
   }
   var compiling = {...TEXTUREPACK[ packs[0] ]}
@@ -289,6 +289,16 @@ var TEXTUREPACK = {
       font: "Comic Sans MS"
     }
   },
+  wind_waker: {
+    WORLD: {//this doesn't work, i will try to figure it out though
+      font: '<source src="http://www.zeldauniverse.net/media-files/typography/SherwoodRegular.ttf">'
+    }
+  },
+  twilight_princess: {
+    WORLD: {//this doesn't work, i will try to figure it out though
+      font: '<source src="http://www.zeldauniverse.net/media-files/typography/Ravenna.ttf">'
+    }
+  },
   clear_test: {
     WORLD: {
       color: '',
@@ -305,6 +315,65 @@ TEXTUREPACK.slippy_dark_font = {
       font: "Comic Sans MS" //huh, apparently setting fonts from the world box rather than individually preservers the spacing
   }
 }
+
+/////////UI for pack switcher/////////////////////
+var revAdder = function (packName) {
+  revisedList.push(packName);
+  POPUP.hide();
+  UIpackSwitcher(revisedList);
+}
+var revRemover = function (index) {
+  revisedList.splice(index,1);
+  POPUP.hide();
+  UIpackSwitcher(revisedList);
+}
+var listel = function (packName, type, v) {
+  return "<li style='cursor:pointer;' value='"+v+"' onclick='"+( type ? 'revRemover(this.value);' : 'revAdder(this.innerHTML);' )+"'>"+packName+"</li>";
+}
+
+var packList = function (reviseList, type) {//type=true => ol, type=false => ul
+  if (!reviseList) {console.log("false 1");return false;}
+  if (type === undefined) {console.log("false 2");return false;}
+  var list = (type ? "<ol>" : "<ul>");
+  for (pack in reviseList) {
+    list = list + listel( (isNaN(pack) ? pack : reviseList[pack]), type, pack);
+  }
+  list = list + (type ? "</ol>" : "</ul>");
+  //console.log(list);
+  return list;
+}
+
+var revisedList = [];
+var UIpackSwitcher = function (reviseList) {
+  revisedList = [...reviseList];
+  POPUP.new(
+    "TexturePack Switching Menue",
+    "note to self, improve this menu.\nselected pack list:"+packList(reviseList,true)+"list of texturepacks:"+packList(TEXTUREPACK,false),
+    [
+      {
+        disp: "save",
+        func: function () {
+          //console.log("TexturePack Save Btn Pressed");
+          packSwitcher(reviseList);
+          YOU.state === "travel";
+          POPUP.hide();
+        },
+        disable: false
+      },
+      {
+        disp: "cancel",
+        func: function () {
+          //console.log("TexturePack Cancel Btn Pressed");
+          revisedList = [];
+          YOU.state === "travel";
+          POPUP.hide();
+        },
+        disable: false
+      }
+    ]
+  );
+}
+/////////////////////////////////
 
 //dont init multiple times, why? idk.
 var init = function() {
@@ -334,6 +403,15 @@ var init = function() {
       return result;
     };
   })();
+  //add a button to the hotbar
+  var packSwitchbtn = document.createElement("span");
+  packSwitchbtn.id = "pack-switch";
+  packSwitchbtn.className = "hotbar-btn unselectable";
+  packSwitchbtn.innerHTML = "pack switch";
+  packSwitchbtn.onclick = () => {UIpackSwitcher(selectedPacks)};//thankyou LightningWB
+  var hotbarbtnTarget = document.getElementById("hotbar-box");
+  hotbarbtnTarget.appendChild(packSwitchbtn);
+  //set to default
   packSwitcher(["default"]);
 }
 init();

@@ -1,4 +1,7 @@
 # Changelog
+## 0.8.0
+* created a ui for switching texturepacks, the ui uses the POPUP functionallity from the game. clicking a pack will change a thing and will open a new POPUP with the changes. pressing cancel will close the menue and discard changes. pressing save will run `packSwitcher()`.
+* added a button to the hotbar that will open the texturepack switching ui, it will specifically show the currently selected texturepacks when pressing this button.
 ## 0.7.0
 * now calls `WORLD.build()` when switching texturepack
 * now layers texturepacks like minecraft, `packSwitcher(table of pack names)` index 0 being on the bottom

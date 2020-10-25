@@ -7,7 +7,7 @@ A texturepack mod for https://thetravelers.online/
 # Installation
 Copy and paste the code from texturepacks.js into the browser console after logging in.
 
-To change texture packs, enter this into console `packSwitcher(table of pack names);`, example `packSwitcher(["default","slippy_dark"]);`.
+To change texture packs, press the button in the hotbar called "pack switch", or enter this into console `packSwitcher(table of pack names);`, example `packSwitcher(["default","slippy_dark"]);`.
 
 Hope you enjoy a world of color :D
 
@@ -32,3 +32,6 @@ If you'd like it to be added pls message me in discord (find me in thetravelers 
 * Compatibility with other travelers mods
 * User Interface
 * Easy installation method such as Bookmarklets or Browser Extensions
+* Add descriptions for texturepacks, probably viewed by hovering mouse curser.
+* Clean the code.
+* Update the To-Do list
