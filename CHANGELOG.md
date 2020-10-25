@@ -1,4 +1,8 @@
 # Changelog
+## 0.8.1
+* added a try statement to the style changes in `WORLD.changeTile`, this is to prevent it error spamming console when the tile to be changed isn't on screen. this is for compatibility with a freecam mod.
+* prevent removing "default" from first in the selected texturepacks list in the ui, (im not going to stop you if you `packSwitcher()` from console)
+* made it so if no array is given to `packSwitcher()` it wont do anything (im not going to be checking if the array is empty because nothing breaks if it is)
 ## 0.8.0
 * created a ui for switching texturepacks, the ui uses the POPUP functionallity from the game. clicking a pack will change a thing and will open a new POPUP with the changes. pressing cancel will close the menue and discard changes. pressing save will run `packSwitcher()`.
 * added a button to the hotbar that will open the texturepack switching ui, it will specifically show the currently selected texturepacks when pressing this button.

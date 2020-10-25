@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.8.0
+version: 0.8.1
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -89,6 +89,9 @@ var selectedPacks = [];//for the list of packs that are currently selected, to b
 var COMPILEDPACK = {};//for the compilation of the texturepacks
 
 var packSwitcher = function (packs) {//layers like minecraft texturepacks, index 0 being base with everything else ontop of it
+  if (typeof packs !== "object") {return false;}
+  if (!Array.isArray(packs)) {return false;}
+  //if (packs.length === 0) {return false;} //i dont  actually care if you give it an empty array/table, it doesn't break anything
   for (var i=0; i < packs.length; i++) {//yes this check needs to be run first
     //console.log(packs[i]);
     if (!TEXTUREPACK.hasOwnProperty(packs[i])) {return false;}
@@ -323,6 +326,7 @@ var revAdder = function (packName) {
   UIpackSwitcher(revisedList);
 }
 var revRemover = function (index) {
+  if ( (index === 0)&&(revisedList[index] === "default") ) {return;}
   revisedList.splice(index,1);
   POPUP.hide();
   UIpackSwitcher(revisedList);
@@ -336,7 +340,7 @@ var packList = function (reviseList, type) {//type=true => ol, type=false => ul
   if (type === undefined) {console.log("false 2");return false;}
   var list = (type ? "<ol>" : "<ul>");
   for (pack in reviseList) {
-    list = list + listel( (isNaN(pack) ? pack : reviseList[pack]), type, pack);
+    list = list + listel( (isNaN(pack) ? pack : reviseList[pack]), type, pack);//im just gonna be lazy and not care about adding a value to every <li>
   }
   list = list + (type ? "</ol>" : "</ul>");
   //console.log(list);
@@ -398,8 +402,12 @@ var init = function() {
     var cached_function = WORLD.changeTile
     return function() {
       var result = cached_function.apply(this, arguments);
-      document.getElementById(arguments[0] + "|" + arguments[1]).style.color = colorPicker(arguments[2]);
-      document.getElementById(arguments[0] + "|" + arguments[1]).style.fontFamily = fontPicker(arguments[2]);
+      try {
+        document.getElementById(arguments[0] + "|" + arguments[1]).style.color = colorPicker(arguments[2]);
+      } catch(e){}//compat with freecam
+      try {
+        document.getElementById(arguments[0] + "|" + arguments[1]).style.fontFamily = fontPicker(arguments[2]);
+      } catch(e){}//compat with freecam
       return result;
     };
   })();
