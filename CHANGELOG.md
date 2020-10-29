@@ -1,4 +1,10 @@
 # Changelog
+## 0.8.2
+* ability to clear selected packs in the menu, click the "clear" button at the top of the selected packs box
+* ability to reorder the selected packs, `revMover()` takes an index, and will accept any difference in position, unless it interferes with default on index 0. when a move button is pressed it will tell `revMover()` to move the pack by 1.
+* the pack lists are now in divs that are side by side, like the loot screen
+* the add and remove functionallity of clicking on a pack is now set to buttons rather than clicking on the pack names
+* the pack name and add/rem and mover buttons should be decently aligned with css for the time being
 ## 0.8.1
 * added a try statement to the style changes in `WORLD.changeTile`, this is to prevent it error spamming console when the tile to be changed isn't on screen. this is for compatibility with a freecam mod.
 * prevent removing "default" from first in the selected texturepacks list in the ui, (im not going to stop you if you `packSwitcher()` from console)

@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.8.1
+version: 0.8.2
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -331,8 +331,24 @@ var revRemover = function (index) {
   POPUP.hide();
   UIpackSwitcher(revisedList);
 }
+var revMover = function (index, dif) {
+  if ( (index === 0)&&(revisedList[index] === "default") ) {return;}
+  if ( (index + dif) <= 0 ) {return;} //prevent overiding default being 0
+  let changeItem = revisedList.splice(index,1);
+  revisedList.splice(index+dif, 0, changeItem);
+  POPUP.hide();
+  UIpackSwitcher(revisedList);
+}
+var revClear = function () {
+  revisedList = ["default"];
+  POPUP.hide();
+  UIpackSwitcher(revisedList);
+}
 var listel = function (packName, type, v) {
-  return "<li style='cursor:pointer;' value='"+v+"' onclick='"+( type ? 'revRemover(this.value);' : 'revAdder(this.innerHTML);' )+"'>"+packName+"</li>";
+  let mainBtn = "<span class='hotbar-btn unselectable' onclick='"+( type ? 'revRemover(this.parentElement.parentElement.value);' : 'revAdder(this.parentElement.parentElement.id);' )+"'>"+( type ? 'rem' : 'add' )+"</span>";
+  let moveBtn_up = "<span class='hotbar-btn unselectable' onclick='revMover(this.parentElement.parentElement.value, -1);'>\u2191</span>";
+  let moveBtn_down = "<span class='hotbar-btn unselectable' onclick='revMover(this.parentElement.parentElement.value, 1);'>\u2193</span>";
+  return "<li class='unselectable' style='margin-right:0;' value='"+v+"' id='"+packName+"'><div class='loot-item-left' style='width:calc(100% - 117px);padding: 2px 4px 2px 0px;display: inline-block;'>"+packName+"</div><div class='loot-item-right' style='width:auto;padding: 2px 2px;'>"+mainBtn+( type ? moveBtn_up+moveBtn_down : '' )+"</div></li>";
 }
 
 var packList = function (reviseList, type) {//type=true => ol, type=false => ul
@@ -352,7 +368,7 @@ var UIpackSwitcher = function (reviseList) {
   revisedList = [...reviseList];
   POPUP.new(
     "TexturePack Switching Menue",
-    "note to self, improve this menu.\nselected pack list:"+packList(reviseList,true)+"list of texturepacks:"+packList(TEXTUREPACK,false),
+    "<div><span style='float:left;'>texturepack list</span><span style='float:right;'><span class='spanlink' style='margin-right:20px;' onclick='revClear();'>clear</span>selected packs</span><div style='display:inline-block;'><!-- this works to stabalize the floating spans lol --></div></div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(TEXTUREPACK,false)+"</div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(reviseList,true)+"</div>",
     [
       {
         disp: "save",
