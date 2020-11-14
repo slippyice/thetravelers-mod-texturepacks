@@ -1,4 +1,13 @@
 # Changelog
+## 0.8.3
+* commented out some "junk" texture packs, for now
+* starting to work on slippy_light pack
+* added a box around the "clear" button in the ui to make it more visible
+* made it so everything in the ui is now `class='unselectable'`
+* made it so some of the ui text changes sizes
+* made some changes so the texturepack names don't linewrap as severely on thinner/mobile screens
+* will change the un/ordered lists to divs when the screen is thinner/mobile to give more space for texturepack names
+* the bookmarklet for the main texturepacks mod does not work, will fix in future version
 ## 0.8.2
 * ability to clear selected packs in the menu, click the "clear" button at the top of the selected packs box
 * ability to reorder the selected packs, `revMover()` takes an index, and will accept any difference in position, unless it interferes with default on index 0. when a move button is pressed it will tell `revMover()` to move the pack by 1.

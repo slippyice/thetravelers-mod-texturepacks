@@ -3,7 +3,7 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.8.2
+version: 0.8.3
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
@@ -173,7 +173,47 @@ var TEXTUREPACK = {
     }
   },
   slippy_light: {
+    COLORS: {
+      //traveler: 'white',
+      sand: '#dbd195',
+      grass: '#2f8735',
+      tree: '#3dbf06',
+      water: '#446e73',
+      swamp: '#63731f',//'#97c971',
+      mountain: '#919191',
+      forest: '#408211',
+      house: '#f79f4d',
+      city: '#f77a4d',
+      startbox: '#ed809d',
+      monument: '#8552a3',//'#301440',//'#b24ced',
+      island: '#dbd195',
+      worldedge: '#d1c3d9',
 
+      // building materials
+      sign_block: '#ffe203',//'#ffbf00',
+      wood_block: '#cc9745',//'#915f13',
+      wood_door: '#c9782c',
+      scrap_block: '#59706f',
+      scrap_door: '#a3c7bd',
+      steel_block: '#677f8a',
+      steel_door: '#9badcc',
+      small_chest: '#a84f6d',
+      large_chest: '#d15858',
+      anchor: '#92809e',
+
+      // special locations
+      body: '#ed809d',
+      drop: '#ed809d',
+      hole: '#ed809d',
+      sepulchre: '#8552a3',
+      bunker: '#f20f0f',
+      base: '#fa431e',
+      pyramid: '#8552a3',
+      water_cube: '#8552a3',
+      fort_wall: '#8552a3',
+      fort_door: '#8552a3',
+      fortress: '#8552a3'
+    }
   },
   slippy_dark: {
     TILES: {
@@ -261,6 +301,11 @@ var TEXTUREPACK = {
     //FONTS: "Comic Sans MS"
     //font support when? NOW!
   },
+  comic_sans: {
+    WORLD: {
+      font: "Comic Sans MS"
+    }
+  }/*,
   switch_test: {
     TILES: {
       traveler: '%',
@@ -287,11 +332,6 @@ var TEXTUREPACK = {
       font: "Helvetica"
     }
   },
-  comic_sans: {
-    WORLD: {
-      font: "Comic Sans MS"
-    }
-  },
   wind_waker: {
     WORLD: {//this doesn't work, i will try to figure it out though
       font: '<source src="http://www.zeldauniverse.net/media-files/typography/SherwoodRegular.ttf">'
@@ -308,8 +348,20 @@ var TEXTUREPACK = {
       background: '',
       font: ''
     }
-  }
+  }*/
 }
+/* for security reasons, browsers don't allow this, ugh
+var sherwoodregular = document.createElement('link');
+sherwoodregular.setAttribute('rel', 'stylesheet');
+sherwoodregular.setAttribute('type', 'text/css');
+sherwoodregular.setAttribute('href', 'http://www.zeldauniverse.net/media-files/typography/SherwoodRegular.ttf');
+document.head.appendChild(sherwoodregular);
+var ravenna = document.createElement('link');
+ravenna.setAttribute('rel', 'stylesheet');
+ravenna.setAttribute('type', 'text/css');
+ravenna.setAttribute('href', 'http://www.zeldauniverse.net/media-files/typography/Ravenna.ttf');
+document.head.appendChild(ravenna);
+*/
 TEXTUREPACK.slippy_dark_font = {
   //this is an example where you can make minor modifications to an existing pack
   ...TEXTUREPACK.slippy_dark,
@@ -321,17 +373,22 @@ TEXTUREPACK.slippy_dark_font = {
 
 /////////UI for pack switcher/////////////////////
 var revAdder = function (packName) {
+  //console.log("add "+packName);
+  //console.log("test add "+this.id);
   revisedList.push(packName);
   POPUP.hide();
   UIpackSwitcher(revisedList);
 }
 var revRemover = function (index) {
+  //console.log("rem dex "+index);
   if ( (index === 0)&&(revisedList[index] === "default") ) {return;}
   revisedList.splice(index,1);
   POPUP.hide();
   UIpackSwitcher(revisedList);
 }
 var revMover = function (index, dif) {
+  //console.log("move dex "+index);
+  //console.log("move dif "+dif);
   if ( (index === 0)&&(revisedList[index] === "default") ) {return;}
   if ( (index + dif) <= 0 ) {return;} //prevent overiding default being 0
   let changeItem = revisedList.splice(index,1);
@@ -345,20 +402,20 @@ var revClear = function () {
   UIpackSwitcher(revisedList);
 }
 var listel = function (packName, type, v) {
-  let mainBtn = "<span class='hotbar-btn unselectable' onclick='"+( type ? 'revRemover(this.parentElement.parentElement.value);' : 'revAdder(this.parentElement.parentElement.id);' )+"'>"+( type ? 'rem' : 'add' )+"</span>";
-  let moveBtn_up = "<span class='hotbar-btn unselectable' onclick='revMover(this.parentElement.parentElement.value, -1);'>\u2191</span>";
-  let moveBtn_down = "<span class='hotbar-btn unselectable' onclick='revMover(this.parentElement.parentElement.value, 1);'>\u2193</span>";
-  return "<li class='unselectable' style='margin-right:0;' value='"+v+"' id='"+packName+"'><div class='loot-item-left' style='width:calc(100% - 117px);padding: 2px 4px 2px 0px;display: inline-block;'>"+packName+"</div><div class='loot-item-right' style='width:auto;padding: 2px 2px;'>"+mainBtn+( type ? moveBtn_up+moveBtn_down : '' )+"</div></li>";
+  let mainBtn = "<span class='hotbar-btn unselectable' id='"+packName+"' value='"+v+"' onclick='"+( type ? 'revRemover('+v+');' : 'revAdder(this.id);' )+"'>"+( type ? 'rem' : 'add' )+"</span>";
+  let moveBtn_up = "<span class='hotbar-btn unselectable' onclick='revMover("+v+", -1);'>\u2191</span>";
+  let moveBtn_down = "<span class='hotbar-btn unselectable' onclick='revMover("+v+", 1);'>\u2193</span>";
+  return (windowMode() ? '<div' : '<li' )+" class='unselectable' style='margin-right:0;' value='"+v+"' id='"+packName+"'><div class='loot-item-left' style='"+(windowMode(true) ? 'width:calc(95%);' : 'width:calc(60%);')+"padding: 2px 4px 2px 0px;display: inline-block;'>"+packName+"</div><div class='loot-item-right' style='width:auto;padding: 2px 2px;'>"+mainBtn+( type ? moveBtn_up+moveBtn_down : '' )+"</div>"+(windowMode() ? '</div>' : '</li>' );
 }
 
 var packList = function (reviseList, type) {//type=true => ol, type=false => ul
-  if (!reviseList) {console.log("false 1");return false;}
-  if (type === undefined) {console.log("false 2");return false;}
-  var list = (type ? "<ol>" : "<ul>");
+  if (!reviseList) {return false;}
+  if (type === undefined) {return false;}
+  var list = (windowMode() ? "<div>" : (type ? "<ol>" : "<ul>") );
   for (pack in reviseList) {
     list = list + listel( (isNaN(pack) ? pack : reviseList[pack]), type, pack);//im just gonna be lazy and not care about adding a value to every <li>
   }
-  list = list + (type ? "</ol>" : "</ul>");
+  list = list + (windowMode() ? "</div>" : (type ? "</ol>" : "</ul>") );
   //console.log(list);
   return list;
 }
@@ -367,8 +424,8 @@ var revisedList = [];
 var UIpackSwitcher = function (reviseList) {
   revisedList = [...reviseList];
   POPUP.new(
-    "TexturePack Switching Menue",
-    "<div><span style='float:left;'>texturepack list</span><span style='float:right;'><span class='spanlink' style='margin-right:20px;' onclick='revClear();'>clear</span>selected packs</span><div style='display:inline-block;'><!-- this works to stabalize the floating spans lol --></div></div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(TEXTUREPACK,false)+"</div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(reviseList,true)+"</div>",
+    "<span class='unselectable'>TexturePack Switching Menue</span>",
+    "<div class='unselectable'><span class='loot-desc' style='float:left;margin: 0 0 0 0;'>texturepack list</span><span class='loot-desc' style='float:right;margin: 0 0 0 0;'><span class='spanlink hotbar-btn unselectable' style='margin-right:20px; padding: 0px 2px;' onclick='revClear();'>clear</span>selected packs</span><div style='display:inline-block;'><!-- this works to stabalize the floating spans lol --></div></div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(TEXTUREPACK,false)+"</div><div class='loot-contain scrollbar' style='height:320px;font-size: 14px;'>"+packList(reviseList,true)+"</div>",
     [
       {
         disp: "save",
@@ -392,6 +449,13 @@ var UIpackSwitcher = function (reviseList) {
       }
     ]
   );
+}
+
+var windowMode = function (soft) {
+  soft = soft || false;
+  if ( soft&&(window.innderWidth < window.innerHeight) ) {return true;}
+  if ( window.innerWidth < 400 ) {return true;}
+  return false;
 }
 /////////////////////////////////
 
