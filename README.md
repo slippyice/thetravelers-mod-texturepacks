@@ -27,15 +27,12 @@ If you'd like it to be added pls message me in discord (find me in thetravelers 
 
 # To-Do:
 * Differentiation of the player traveler from other travelers
-* Font handling
+* Font handling, partially working now
 * Image handling
-* Modifying WORLD.TILES
-* The ability to change/add/remove/apply texturepacks
-* Proper injection code so this doesn't break every time the game updates
+* The ability to change/apply texturepacks
 * Compatibility with other travelers mods
 * User Interface
 * Easy installation method such as Bookmarklets or Browser Extensions
-* Add descriptions for texturepacks, probably viewed by hovering mouse curser.
 * Clean the code.
 * Make init only run once and check if it's on thetravelers.online
 * Update the To-Do list

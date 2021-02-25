@@ -3,11 +3,12 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.8.3
+version: 0.8.4
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
 ///////////////////////////////////
+const TEXTUREPACK_MOD_VERSION = "0.8.4";
 var textCompat = function (char) {
   for (var tile in TEXTUREPACK.default.TILES) {
     if (char === TEXTUREPACK.default.TILES[tile]) {return WORLD.TILES[tile];}
@@ -112,6 +113,7 @@ var packSwitcher = function (packs) {//layers like minecraft texturepacks, index
 
 var TEXTUREPACK = {
   default: {
+    DESCRIPTION: "the default look of the travelers.",
     TILES: {
       traveler: '&amp;',
       sand: '&nbsp;',
@@ -155,6 +157,7 @@ var TEXTUREPACK = {
     }
   },
   structure: {
+    DESCRIPTION: "example pack structure<br>do not use",
     TILES: {
       tree: 't'
     },
@@ -173,10 +176,11 @@ var TEXTUREPACK = {
     }
   },
   slippy_light: {
+    DESCRIPTION: "slippy's light theme pack.",
     COLORS: {
       //traveler: 'white',
-      sand: '#dbd195',
-      grass: '#2f8735',
+      sand: '#736d47',
+      grass: '#05800b',
       tree: '#3dbf06',
       water: '#446e73',
       swamp: '#63731f',//'#97c971',
@@ -216,6 +220,7 @@ var TEXTUREPACK = {
     }
   },
   slippy_dark: {
+    DESCRIPTION: "slippy's dark theme pack.",
     TILES: {
       traveler: '&amp;',
       sand: '&nbsp;',
@@ -302,8 +307,16 @@ var TEXTUREPACK = {
     //font support when? NOW!
   },
   comic_sans: {
+    DESCRIPTION:"<span style='font-family:Comic Sans MS;'>comic sans. enough said.</span>",
     WORLD: {
       font: "Comic Sans MS"
+    }
+  },
+  clear_test: {
+    WORLD: {
+      color: '',
+      background: '',
+      font: ''
     }
   }/*,
   switch_test: {
@@ -405,7 +418,7 @@ var listel = function (packName, type, v) {
   let mainBtn = "<span class='hotbar-btn unselectable' id='"+packName+"' value='"+v+"' onclick='"+( type ? 'revRemover('+v+');' : 'revAdder(this.id);' )+"'>"+( type ? 'rem' : 'add' )+"</span>";
   let moveBtn_up = "<span class='hotbar-btn unselectable' onclick='revMover("+v+", -1);'>\u2191</span>";
   let moveBtn_down = "<span class='hotbar-btn unselectable' onclick='revMover("+v+", 1);'>\u2193</span>";
-  return (windowMode() ? '<div' : '<li' )+" class='unselectable' style='margin-right:0;' value='"+v+"' id='"+packName+"'><div class='loot-item-left' style='"+(windowMode(true) ? 'width:calc(95%);' : 'width:calc(60%);')+"padding: 2px 4px 2px 0px;display: inline-block;'>"+packName+"</div><div class='loot-item-right' style='width:auto;padding: 2px 2px;'>"+mainBtn+( type ? moveBtn_up+moveBtn_down : '' )+"</div>"+(windowMode() ? '</div>' : '</li>' );
+  return (windowMode() ? '<div' : '<li' )+" class='unselectable' style='margin-right:0;' value='"+v+"' id='"+packName+"'><div class='loot-item-left' onclick='HOVER.make(TEXTUREPACK[this.innerHTML].DESCRIPTION, TEXTUREPACK[this.innerHTML].DESCRIPTION, 200);' style='"+(windowMode(true) ? 'width:calc(95%);' : 'width:calc(60%);')+"padding: 2px 4px 2px 0px;display: inline-block;'>"+packName+"</div><div class='loot-item-right' style='width:auto;padding: 2px 2px;'>"+mainBtn+( type ? moveBtn_up+moveBtn_down : '' )+"</div>"+(windowMode() ? '</div>' : '</li>' );
 }
 
 var packList = function (reviseList, type) {//type=true => ol, type=false => ul
@@ -442,6 +455,15 @@ var UIpackSwitcher = function (reviseList) {
         func: function () {
           //console.log("TexturePack Cancel Btn Pressed");
           revisedList = [];
+          YOU.state === "travel";
+          POPUP.hide();
+        },
+        disable: false
+      },
+      {
+        disp: "v"+TEXTUREPACK_MOD_VERSION,
+        func: function () {
+          window.open("https://github.com/slippyice/thetravelers-mod-texturepacks",'_blank');
           YOU.state === "travel";
           POPUP.hide();
         },

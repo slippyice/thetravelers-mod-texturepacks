@@ -1,4 +1,11 @@
 # Changelog
+## 0.8.4
+* added texturepack descriptions
+* descriptions can be viewed when clicking on the texturepack name in the pack switching menu
+* updated some colors in slippy_light
+* in the pack switching ui, it says the version number of this mod, if pressed it takes you to the github repository, sorry for this shameless piece of advert
+* bookmarklets still broken, will fix in a future version
+* updated the to-do list
 ## 0.8.3
 * commented out some "junk" texture packs, for now
 * starting to work on slippy_light pack
