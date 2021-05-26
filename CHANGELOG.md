@@ -1,4 +1,9 @@
 # Changelog
+## 0.9.0
+* added the ability to change individual background colors in texturepacks, `pack_name{ BACKGROUNDCOLORS: {TILE_NAME: color} }`
+* fixed bug were modifying functions would not work if tile in the compiled pack was undefined by having them now check `WORLD.TILES` as that will always contain at least the default tiles
+* will compile packs together each item of every category individual, will now only make a change if a pack specifies a change, this significantly improved layering packs
+* bookmarklets are still broken, will fix soonTM
 ## 0.8.4
 * added texturepack descriptions
 * descriptions can be viewed when clicking on the texturepack name in the pack switching menu

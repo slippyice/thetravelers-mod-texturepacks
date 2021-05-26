@@ -3,12 +3,12 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.8.4
+version: 0.9.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
 ///////////////////////////////////
-const TEXTUREPACK_MOD_VERSION = "0.8.4";
+const TEXTUREPACK_MOD_VERSION = "0.9.0";
 var textCompat = function (char) {
   for (var tile in TEXTUREPACK.default.TILES) {
     if (char === TEXTUREPACK.default.TILES[tile]) {return WORLD.TILES[tile];}
@@ -36,8 +36,8 @@ var defaultColor = function() {
 //returns css style "color:aColor;"
 var colorPicker = function (char) {
   if (!COMPILEDPACK.COLORS) {return "";}//defaultColor()
-  for (var tile in COMPILEDPACK.TILES) {
-    if (char === COMPILEDPACK.TILES[tile]) {
+  for (var tile in WORLD.TILES) {
+    if (char === WORLD.TILES[tile]) {
       if (COMPILEDPACK.COLORS[tile]) {
         //console.log("i picked a pack color");
         return COMPILEDPACK.COLORS[tile];
@@ -51,14 +51,26 @@ var colorPicker = function (char) {
 var defaultFont = "'Courier New', Courier, monospace";
 var fontPicker = function (char) {
   if (!COMPILEDPACK.FONTS) {return "";}//defaultFont
-  for (var tile in COMPILEDPACK.TILES) {
-    if (char === COMPILEDPACK.TILES[tile]) {
+  for (var tile in WORLD.TILES) {
+    if (char === WORLD.TILES[tile]) {
       if (COMPILEDPACK.FONTS[tile]) {
         return COMPILEDPACK.FONTS[tile];
       }
     }
   }
   return "";//defaultFont
+}
+
+var backCoPicker = function (char) {
+  if (!COMPILEDPACK.BACKGROUNDCOLORS) {return "";}
+  for (var tile in WORLD.TILES) {
+    if (char === WORLD.TILES[tile]) {
+      if (COMPILEDPACK.BACKGROUNDCOLORS[tile]) {
+        return COMPILEDPACK.BACKGROUNDCOLORS[tile];
+      }
+    }
+  }
+  return "";//defaultBackgroundColour
 }
 
 var worldColor = function () {
@@ -97,9 +109,20 @@ var packSwitcher = function (packs) {//layers like minecraft texturepacks, index
     //console.log(packs[i]);
     if (!TEXTUREPACK.hasOwnProperty(packs[i])) {return false;}
   }
-  var compiling = {...TEXTUREPACK[ packs[0] ]}
-  for (var i=1; i < packs.length; i++) {
-    compiling = {...compiling, ...TEXTUREPACK[ packs[i] ]}
+  var compiling = {
+    DESCRIPTION: {},
+    TILES: {},
+    COLORS: {},
+    FONTS: {},
+    BACKGROUNDCOLORS: {},
+    WORLD: {}
+  };
+  for (var i=0; i < packs.length; i++) {
+    for (var category in TEXTUREPACK[ packs[i] ]) {
+      for (var item in TEXTUREPACK[ packs[i] ][category]) {
+        compiling[category][item] = TEXTUREPACK[ packs[i] ][category][item];
+      }
+    }
   }
   selectedPacks = packs;//selectedPack = pack;
   COMPILEDPACK = compiling;
@@ -159,15 +182,21 @@ var TEXTUREPACK = {
   structure: {
     DESCRIPTION: "example pack structure<br>do not use",
     TILES: {
-      tree: 't'
+      tree: '%'
     },
     //any individual settings beyond this point not defined will default to ""
     //leaving out an entire section will //////////////////////////HAVENT DECIDED YET//////////////////////////////////////////
     COLORS: {
-      tree: 'white'
+      tree: 'magenta',
+      mountain: 'brown'
     },
     FONTS: {
       tree: "'Courier New', Courier, monospace"
+    },
+    BACKGROUNDCOLORS: {
+      mountain: '#2f2f2f',
+      swamp: '#33d553',
+      sand: '#776522'
     },
     WORLD: {
       color: 'white',
@@ -485,7 +514,7 @@ var windowMode = function (soft) {
 var init = function() {
   //world build
   var build_rem = 'WORLD.tilemap[count].style.fontWeight = "";';
-  var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);WORLD.tilemap[count].style.fontFamily = fontPicker(tile);';
+  var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);WORLD.tilemap[count].style.fontFamily = fontPicker(tile);WORLD.tilemap[count].style.background = backCoPicker(tile);';
   var build_str = WORLD.build.toString();
   build_str = build_str.replace(build_rem, build_add);
   WORLD.build = eval('('+build_str+')');//thank you LightningWB
@@ -509,6 +538,10 @@ var init = function() {
       } catch(e){}//compat with freecam
       try {
         document.getElementById(arguments[0] + "|" + arguments[1]).style.fontFamily = fontPicker(arguments[2]);
+      } catch(e){}//compat with freecam
+      return result;
+      try {
+        document.getElementById(arguments[0] + "|" + arguments[1]).style.background = backCoPicker(arguments[2]);
       } catch(e){}//compat with freecam
       return result;
     };
