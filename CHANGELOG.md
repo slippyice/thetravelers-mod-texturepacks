@@ -1,4 +1,8 @@
 # Changelog
+## 0.10.0
+* player character / YOU is now defined seperately from other travelers
+* fixed bug were changing tiles from server objects did not change the background color
+* bookmarklets are now currently broken, will fix eventually
 ## 0.9.0
 * added the ability to change individual background colors in texturepacks, `pack_name{ BACKGROUNDCOLORS: {TILE_NAME: color} }`
 * fixed bug were modifying functions would not work if tile in the compiled pack was undefined by having them now check `WORLD.TILES` as that will always contain at least the default tiles

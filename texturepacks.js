@@ -3,12 +3,12 @@
 /*
 texture pack mod for thetravelers.online
 created by slippy/hentai
-version: 0.9.0
+version: 0.10.0
 THIS IS AN EARLY TEST VERSION,
 MISSING MOST FEATURES
 */
 ///////////////////////////////////
-const TEXTUREPACK_MOD_VERSION = "0.9.0";
+const TEXTUREPACK_MOD_VERSION = "0.10.0";
 var textCompat = function (char) {
   for (var tile in TEXTUREPACK.default.TILES) {
     if (char === TEXTUREPACK.default.TILES[tile]) {return WORLD.TILES[tile];}
@@ -138,6 +138,7 @@ var TEXTUREPACK = {
   default: {
     DESCRIPTION: "the default look of the travelers.",
     TILES: {
+      you: '<b>&amp;</b>',
       traveler: '&amp;',
       sand: '&nbsp;',
       grass: ',',
@@ -182,6 +183,7 @@ var TEXTUREPACK = {
   structure: {
     DESCRIPTION: "example pack structure<br>do not use",
     TILES: {
+      traveler: '!',
       tree: '%'
     },
     //any individual settings beyond this point not defined will default to ""
@@ -194,9 +196,12 @@ var TEXTUREPACK = {
       tree: "'Courier New', Courier, monospace"
     },
     BACKGROUNDCOLORS: {
+      you: '#1f1f1f',
+      tree: '#3f3f3f',
       mountain: '#2f2f2f',
       swamp: '#33d553',
-      sand: '#776522'
+      sand: '#776522',
+      door: '#45450f'
     },
     WORLD: {
       color: 'white',
@@ -251,6 +256,7 @@ var TEXTUREPACK = {
   slippy_dark: {
     DESCRIPTION: "slippy's dark theme pack.",
     TILES: {
+      you: '<b>&amp;</b>',
       traveler: '&amp;',
       sand: '&nbsp;',
       grass: ',',
@@ -292,7 +298,8 @@ var TEXTUREPACK = {
       fortress: "\u2B1F"
     },
     COLORS: {
-      //traveler: 'white',
+      you: '#f0f0f0',
+      traveler: '#dfdfdf',
       sand: '#dbd195',
       grass: '#2f8735',
       tree: '#3dbf06',
@@ -515,8 +522,11 @@ var init = function() {
   //world build
   var build_rem = 'WORLD.tilemap[count].style.fontWeight = "";';
   var build_add = 'WORLD.tilemap[count].style.fontWeight = "";WORLD.tilemap[count].style.color = colorPicker(tile);WORLD.tilemap[count].style.fontFamily = fontPicker(tile);WORLD.tilemap[count].style.background = backCoPicker(tile);';
+  var build_you_rem = 'WORLD.tilemap[count].innerHTML = YOU.char;';
+  var build_you_add = 'YOU.char = COMPILEDPACK.TILES.you;WORLD.tilemap[count].innerHTML = YOU.char;WORLD.tilemap[count].style.color = colorPicker(YOU.char);WORLD.tilemap[count].style.fontFamily = fontPicker(YOU.char);WORLD.tilemap[count].style.background = backCoPicker(YOU.char);';
   var build_str = WORLD.build.toString();
   build_str = build_str.replace(build_rem, build_add);
+  build_str = build_str.replace(build_you_rem, build_you_add);
   WORLD.build = eval('('+build_str+')');//thank you LightningWB
   //texture compat
   var compat_rem = 'if (char === "H") {char = WORLD.TILES.house; } if (char === "C") { char = WORLD.TILES.city; }';
@@ -539,7 +549,6 @@ var init = function() {
       try {
         document.getElementById(arguments[0] + "|" + arguments[1]).style.fontFamily = fontPicker(arguments[2]);
       } catch(e){}//compat with freecam
-      return result;
       try {
         document.getElementById(arguments[0] + "|" + arguments[1]).style.background = backCoPicker(arguments[2]);
       } catch(e){}//compat with freecam
