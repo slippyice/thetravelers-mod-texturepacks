@@ -1,4 +1,11 @@
 # Changelog
+## 0.11.EggduroGamesII
+* Eduro Games II Edition
+* located in /EduroGames2/ folder
+* cleared out junk texturepacks and some junk code
+* default texturepacks loaded is "slippy_dark"
+* new texturepack character: unknownium. Any character that shows up on map that is unknown can now be given a default unknown color and background color in the texturepack.
+* packtester.js now adds an unknownium character at the end
 ## 0.10.0
 * player character / YOU is now defined seperately from other travelers
 * fixed bug were changing tiles from server objects did not change the background color
